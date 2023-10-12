@@ -15,26 +15,28 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: [['html', {outputFolder: 'test_results'}]],
     use: {
-        baseURL: '/',
-        trace: 'on-first-retry',
+        baseURL: 'http://127.0.0.1:8000',
+        trace: 'on',
+        headless: false
     },
 
     /* Configure projects for major browsers */
     projects: [
         {
             name: 'chromium',
+
             use: {...devices['Desktop Chrome']},
         },
-
-        {
-            name: 'firefox',
-            use: {...devices['Desktop Firefox']},
-        },
-
-        {
-            name: 'webkit',
-            use: {...devices['Desktop Safari']},
-        },
+        //
+        // {
+        //     name: 'firefox',
+        //     use: {...devices['Desktop Firefox']},
+        // },
+        //
+        // {
+        //     name: 'webkit',
+        //     use: {...devices['Desktop Safari']},
+        // },
     ],
 
 });
