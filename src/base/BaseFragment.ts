@@ -1,11 +1,11 @@
 import {Page} from "@playwright/test";
-import {Base} from "../base/Base";
-import {Selector} from "@ourTypes/components";
+import {Base} from "./Base";
+import {Selector} from "componentTypes";
 import {test} from "@fixture";
 
 
-export class BaseFragment extends Base{
-    constructor(page: Page, private name: string, rootSelector: Selector) {
+export class BaseFragment extends Base {
+    constructor(page: Page,  rootSelector: Selector) {
         super(page, rootSelector)
     }
 

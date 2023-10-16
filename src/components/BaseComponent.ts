@@ -1,7 +1,7 @@
 import {Locator, Page} from "@playwright/test";
 import {Base} from "../base/Base";
 
-export abstract class BaseComponent extends Base {
+export class BaseComponent extends Base {
 
     constructor(
         page: Page,
@@ -14,5 +14,12 @@ export abstract class BaseComponent extends Base {
 
     protected component: Locator = this.locator(this.selector)
 
+    public getLocator() {
+        return this.component
+    }
+
+    protected override errorMessage(target: any = this.root, errorText: string): string {
+        return `Component error: ${this.name} with ${target} ${errorText}`
+    }
 
 }

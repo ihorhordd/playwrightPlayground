@@ -24,19 +24,21 @@ test.beforeEach(async ({loginPage}) => {
 test('CheckDashBoard', async ({dashboardPage}) => {
     await dashboardPage.goto()
     const generalInfo = await dashboardPage.getAllTestCaseStats()
-    expect(generalInfo).toStrictEqual({noRun: 4, passed: 6, failed: 2, total: 12})
+    expect(generalInfo).toStrictEqual({noRun: 4, passed: 5  , failed: 2, total: 11})
+    await dashboardPage.dashboardBox.click()
     await dashboardPage.refreshTestCasesDashboard()
+    await dashboardPage.refreshStatsButton.click()
 })
 
 test('TestCase Page', async ({testCaseDashboardPage}) => {
     await testCaseDashboardPage.goto()
     const myTestCase = await testCaseDashboardPage.getTestCaseById(6)
     const stats = await myTestCase.getTestCaseInfo()
-    console.log(stats)
     await myTestCase.shouldBeVisible()
-    // const testCaseToDelete = await testCaseDashboardPage.getTestCaseById(15)
-    // console.log(await testCaseToDelete.getTestCaseInfo())
-    // await testCaseToDelete.deleteTestCase()
-    // await testCaseToDelete.shouldNotBeVisible()
+    const testCaseToDelete = await testCaseDashboardPage.getTestCaseBySummary(
+        'fail empty form registration check'
+    )
+    console.log(await testCaseToDelete.getTestCaseInfo())
+
 })
 

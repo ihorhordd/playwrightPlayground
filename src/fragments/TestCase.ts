@@ -4,44 +4,31 @@ import {Page} from "@playwright/test";
 import {Base} from "../base/Base";
 import {TestCaseStatus} from "@ourTypes/Enum";
 import {ITestCase} from "@fragmentTypes";
+import {TextElement} from "@components/TextElement";
 
 export class TestCase extends Base {
 
-    private readonly row = this.locator(`tr.testRow_${this.id}`)
+    private readonly row = new TextElement(this.page, `test case row ${this.id}`, this.element)
+    private readonly rowLocator = this.row.getLocator()
+    private readonly idColumn = new TextElement(this.page, 'Id Column', this.rowLocator.locator(`td:nth-child(1)`))
+    private readonly summary = new TextElement(this.page, 'TC Summary', this.rowLocator.locator(`td:nth-child(2)`))
+    private readonly authorColumn = new TextElement(this.page, 'Author column', this.rowLocator.locator('td.ttAuthor'))
+    private readonly descriptionColumn = new TextElement(this.page, 'Description Column', this.rowLocator.locator('td.ttDes div'))
+    private readonly lastExecutor = new TextElement(this.page, 'Last Executor Cell', this.rowLocator.locator('td.ttLast'))
+    private readonly passBtn = new Button(this.page, 'Mark as passed btn', this.rowLocator.locator('td button.ttPass'))
+    private readonly failBtn = new Button(this.page, 'Mark as failed btn', this.rowLocator.locator('td button.ttFail'))
+    private readonly editTestCaseBtn = new Button(this.page, 'Edit test case btn', this.rowLocator.locator('td.ttDetailsBtn button'))
+    private readonly deleteTestCaseBtn = new Button(this.page, 'Edit test case btn', this.rowLocator.locator('td.ttRemBtn button'))
+    private readonly runStatus = this.rowLocator.locator('td.ttStatus span')
 
-    private readonly idColumn = this.row.locator(`td:nth-child(1)`)
 
-    private readonly summary = this.row.locator(`td:nth-child(2)`)
-
-    private readonly authorColumn = this.row.locator('td.ttAuthor')
-
-    private readonly descriptionColumn = this.row.locator('td.ttDes div')
-
-    private readonly lastExecutor = this.row.locator('td.ttLast')
-
-    private readonly passBtn =
-        new Button(this.page, 'Mark as passed btn', this.row.locator('td button.ttPass'))
-
-    private readonly failBtn =
-        new Button(this.page, 'Mark as failed btn', this.row.locator('td button.ttFail'))
-
-    private readonly editTestCaseBtn =
-        new Button(this.page, 'Edit test case btn', this.row.locator('td.ttDetailsBtn button'))
-
-    private readonly deleteTestCaseBtn =
-        new Button(this.page, 'Edit test case btn', this.row.locator('td.ttRemBtn button'))
-
-    private readonly runStatus = this.row.locator('td.ttStatus span')
-
-    protected override root = this.row
-
-    constructor(page: Page, private id: number) {
-        super(page);
+    constructor(page: Page, private id: number, private readonly element = `tr.testRow_${id}`) {
+        super(page, element, `Test Case with id ${id}`);
     }
 
     public async getSummaryText() {
         return await test.step(`Get summary of test case with id ${this.id}`, async () => {
-            const summaryLocator = this.locator(this.summary)
+            const summaryLocator = this.locator(this.summary.getLocator())
             return await this.getInnerText(summaryLocator)
         })
     }
@@ -56,7 +43,7 @@ export class TestCase extends Base {
 
     public async getTestCaseRow() {
         return await test.step(`Return row with id ${this.id}`, async () => {
-            return this.row
+            return this.row.getLocator()
         })
     }
 
@@ -74,20 +61,20 @@ export class TestCase extends Base {
     }
 
     public async getDescription() {
-        return await test.step(`Get describtion of test case with id ${this.id}`, async () => {
-            return await this.getInnerText(this.descriptionColumn)
+        return await test.step(`Get description of test case with id ${this.id}`, async () => {
+            return await this.getInnerText(this.descriptionColumn.getLocator())
         })
     }
 
     public async getAuthor(): Promise<string> {
         return await test.step(`Get Author of test case with id ${this.id}`, async () => {
-            return this.getInnerText(this.authorColumn)
+            return this.getInnerText(this.authorColumn.getLocator())
         })
     }
 
     public async getLastExecutor(): Promise<string> {
         return await test.step(`Get last executor of test case with id ${this.id}`, async () => {
-            return this.getInnerText(this.lastExecutor)
+            return this.getInnerText(this.lastExecutor.getLocator())
         })
     }
 
@@ -104,7 +91,6 @@ export class TestCase extends Base {
             return testCase
         })
     }
-
 
 
 }

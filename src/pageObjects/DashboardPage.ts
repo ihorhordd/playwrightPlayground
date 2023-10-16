@@ -36,8 +36,7 @@ export class DashboardPage extends BasePage {
         }
         await test.step('Get current stats from dashboard', async () => {
             for (const status of statuses) {
-                const statusCount = +(await this.getStatusRow(status)).testCaseCount
-                finalStats[status] = statusCount
+                finalStats[status] = +(await this.getStatusRow(status)).testCaseCount
             }
         })
         if (Object.values(finalStats).some(val => !val)) {
