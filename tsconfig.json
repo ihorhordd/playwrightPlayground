@@ -6,7 +6,16 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@fixture": ["src/utils/fixture.ts"],
+      "@pages/*": ["src/pageObjects/*"],
+      "@fragments/*": ["src/fragments/*"],
+      "@components/*": ["src/components/*"],
+      "@ourTypes/*": ["./types/*"],
+      "@fragmentTypes": ["types/fragments"],
+      "componentTypes": ["types/components"]
+    }
   },
   "exclude": ["node_modules"]
 }
