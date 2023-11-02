@@ -18,7 +18,7 @@ export class LoginPage extends BasePage {
 
 
     public fillUserName(username: string): Promise<void> {
-        return this.userNameInput.click()
+        return this.userNameInput.fill(username)
     }
 
     public fillPassword(password: string): Promise<void> {

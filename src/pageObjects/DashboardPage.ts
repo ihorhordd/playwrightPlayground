@@ -3,14 +3,14 @@ import {Page} from "@playwright/test";
 import {expect, test} from "@fixture";
 import {TestCaseDashboardRow} from "@ourTypes/fragments";
 import {Button} from "@components/Button";
+import {TextElement} from "@components/TextElement";
 
 export class DashboardPage extends BasePage {
 
     public readonly dashboardBox = this.locator('div.wBox')
 
-    private testCaseRowStatusRow = (testCaseStatus: TestCaseDashboardRow) => `p.${testCaseStatus}`
-    private testCaseStatusCount =
-        (testCaseStatus: TestCaseDashboardRow) => `${this.testCaseRowStatusRow(testCaseStatus)} span`
+    private testCaseRowStatusRow = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, 'Test Case Status Row', `p.${testCaseStatus}`)
+    private testCaseStatusCount = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, 'Test Case Status Count', `${this.testCaseRowStatusRow(testCaseStatus)} span`)
     public readonly refreshStatsButton = new Button(this.page, 'refresh stats button', 'div.refresh input[value="Refresh Stats"]')
 
     constructor(page: Page) {
@@ -18,8 +18,8 @@ export class DashboardPage extends BasePage {
     }
 
     public async getStatusRow(status: TestCaseDashboardRow) {
-        const testCaseCount = await this.locator(this.testCaseStatusCount(status)).innerText()
-        const row = this.locator(this.testCaseRowStatusRow(status))
+        const testCaseCount = this.testCaseStatusCount(status).getText()
+        const row = this.testCaseRowStatusRow(status)
         return {
             row,
             testCaseCount
@@ -40,7 +40,8 @@ export class DashboardPage extends BasePage {
             }
         })
         if (Object.values(finalStats).some(val => !val)) {
-            this.errorMessage('getAllTestCaseStats', 'Every key is falsy, check if stats were updated correctly')
+            this.errorMessage('getAllTestCaseStats',
+                `Some key is falsy, check if stats were updated correctly:  ${finalStats}`)
         }
         return finalStats
     }

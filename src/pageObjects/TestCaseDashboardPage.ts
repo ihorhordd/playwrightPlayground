@@ -6,6 +6,7 @@ import {Button} from "@components/Button";
 
 
 export class TestCaseDashboardPage extends BasePage {
+    //TODO Investigate how to treat tables without locator approach
     private readonly testCaseTable = this.locator('table.testTable')
     private readonly testCaseRow = this.locator('tbody tr[class^=testRow]')
     private readonly idColumn = this.getChildElement(this.testCaseRow, ['td:nth-child(1)'])
