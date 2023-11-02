@@ -9,9 +9,4 @@ export class BaseFragment extends Base {
         super(page, rootSelector)
     }
 
-    public async allElementsShouldBeVisible(){
-        await test.step(`Every element of fragment ${this.name} shouldBeVisible`, async () => {
-
-        })
-    }
 }

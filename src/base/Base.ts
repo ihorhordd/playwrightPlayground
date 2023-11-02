@@ -31,7 +31,10 @@ export class Base {
     }
 
     protected async getInnerText(target = this.root) {
-        return await test.step(`Get inner text of "${this.name}" with ${target}`, async () => {
+        const message = this.name
+            ? `Get inner text of ${this.name} with ${target}`
+            : `Get inner text of ${target}`
+        return await test.step(message, async () => {
             return await target.innerText()
         })
 
@@ -57,10 +60,7 @@ export class Base {
     }
 
     protected async getParentElement(target: Selector) {
-        return await test.step(`Get parent element of "${this.name}" with ${target}`, async () => {
             return this.locator(target).locator('..')
-        })
-
     }
 
     public async shouldNotBeVisible(target = this.root): Promise<void> {
@@ -77,11 +77,10 @@ export class Base {
         })
     }
 
-    public getChildElement(target = this.root, path: string[]) {
+    public getChildElement(path: string[], target = this.root ) {
         let elementToReturn = target
         for (const selector of path) {
             elementToReturn = elementToReturn.locator(selector)
-
         }
         return elementToReturn
     }

@@ -8,13 +8,14 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "@base/*": ["src/base/*"],
       "@fixture": ["src/utils/fixture.ts"],
       "@pages/*": ["src/pageObjects/*"],
       "@fragments/*": ["src/fragments/*"],
       "@components/*": ["src/components/*"],
       "@ourTypes/*": ["./types/*"],
       "@fragmentTypes": ["types/fragments"],
-      "componentTypes": ["types/components"]
+      "componentTypes": ["types/components"],
     }
   },
   "exclude": ["node_modules"]

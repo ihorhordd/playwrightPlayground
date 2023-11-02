@@ -1,4 +1,4 @@
-import {BasePage} from "./BasePage";
+import {BasePage} from "../base/BasePage";
 import {Page} from "@playwright/test";
 import {expect, test} from "@fixture";
 import {TestCaseDashboardRow} from "@ourTypes/fragments";

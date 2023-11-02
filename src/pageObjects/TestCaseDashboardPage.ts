@@ -1,4 +1,4 @@
-import {BasePage} from "./BasePage";
+import {BasePage} from "../base/BasePage";
 import {Page} from "@playwright/test";
 import {TestCase} from "@fragments/TestCase";
 import {test} from "@fixture";
@@ -9,7 +9,7 @@ export class TestCaseDashboardPage extends BasePage {
     //TODO Investigate how to treat tables without locator approach
     private readonly testCaseTable = this.locator('table.testTable')
     private readonly testCaseRow = this.locator('tbody tr[class^=testRow]')
-    private readonly idColumn = this.getChildElement(this.testCaseRow, ['td:nth-child(1)'])
+    private readonly idColumn = this.getChildElement(['td:nth-child(1)'], this.testCaseRow)
     private readonly uploadTestsBtn = new Button(this.page, 'Upload test btn', 'a.fileUploadBtn')
     private readonly downloadTestsBtn = new Button(this.page, 'Upload test btn', 'div.fileDownload input')
     private readonly downloadMoreBtn = new Button(this.page, 'Load more btn', 'div.loadMore input')
@@ -32,7 +32,7 @@ export class TestCaseDashboardPage extends BasePage {
                 testCaseRow.locator('td').first()
             )
             return new TestCase(this.page, testCaseId)
-        })
+        },{box: true})
     }
 
     public async getTestCasesCount() {

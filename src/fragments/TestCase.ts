@@ -1,10 +1,11 @@
 import {Button} from "@components/Button";
 import {test} from "@fixture";
 import {Page} from "@playwright/test";
-import {Base} from "../base/Base";
+import {Base} from "@base/Base";
 import {TestCaseStatus} from "@ourTypes/Enum";
 import {ITestCase} from "@fragmentTypes";
 import {TextElement} from "@components/TextElement";
+import {UpdateTestCasePage} from "@pages/UpdateTestCasePage";
 
 export class TestCase extends Base {
 
@@ -17,8 +18,8 @@ export class TestCase extends Base {
     private readonly lastExecutor = new TextElement(this.page, 'Last Executor Cell', this.rowLocator.locator('td.ttLast'))
     private readonly passBtn = new Button(this.page, 'Mark as passed btn', this.rowLocator.locator('td button.ttPass'))
     private readonly failBtn = new Button(this.page, 'Mark as failed btn', this.rowLocator.locator('td button.ttFail'))
-    private readonly editTestCaseBtn = new Button(this.page, 'Edit test case btn', this.rowLocator.locator('td.ttDetailsBtn button'))
-    private readonly deleteTestCaseBtn = new Button(this.page, 'Edit test case btn', this.rowLocator.locator('td.ttRemBtn button'))
+    private readonly updateTestCaseBtn = new Button(this.page, 'Update test case btn', this.rowLocator.locator('td.ttDetailsBtn button'))
+    private readonly deleteTestCaseBtn = new Button(this.page, 'Delete test case btn', this.rowLocator.locator('td.ttRemBtn button'))
     private readonly runStatus = this.rowLocator.locator('td.ttStatus span')
 
 
@@ -30,7 +31,7 @@ export class TestCase extends Base {
         return await test.step(`Get summary of test case with id ${this.id}`, async () => {
             const summaryLocator = this.locator(this.summary.getLocator())
             return await this.getInnerText(summaryLocator)
-        })
+        }, {box: true})
     }
 
     public async markTestCase(status: TestCaseStatus.fail | TestCaseStatus.pass) {
@@ -57,25 +58,25 @@ export class TestCase extends Base {
         return await test.step(`Delete test case with if ${this.id}`, async () => {
             const status = (await this.getInnerText(this.runStatus)).toLowerCase()
             return status
-        })
+        }, {box: true})
     }
 
     public async getDescription() {
         return await test.step(`Get description of test case with id ${this.id}`, async () => {
             return await this.getInnerText(this.descriptionColumn.getLocator())
-        })
+        }, {box: true})
     }
 
     public async getAuthor(): Promise<string> {
         return await test.step(`Get Author of test case with id ${this.id}`, async () => {
             return this.getInnerText(this.authorColumn.getLocator())
-        })
+        }, {box: true})
     }
 
     public async getLastExecutor(): Promise<string> {
         return await test.step(`Get last executor of test case with id ${this.id}`, async () => {
             return this.getInnerText(this.lastExecutor.getLocator())
-        })
+        }, {box: true})
     }
 
     public async getTestCaseInfo(): Promise<ITestCase> {
@@ -89,8 +90,13 @@ export class TestCase extends Base {
                 lastExecutor: await this.getLastExecutor()
             }
             return testCase
-        })
+        }, {box: true})
     }
 
-
+    public async openUpdateTestCasePage() {
+        return await test.step(`Click "Update test case" btn`, async () => {
+            await this.updateTestCaseBtn.click()
+            return new UpdateTestCasePage(this.page, this.id)
+        })
+    }
 }
