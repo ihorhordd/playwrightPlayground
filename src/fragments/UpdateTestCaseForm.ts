@@ -3,6 +3,7 @@ import {Page} from "@playwright/test";
 import {TextElement} from "@components/TextElement";
 import {Input} from "@components/Input";
 import {test} from "@fixture";
+import {boxStep} from "../utils/decorators";
 
 
 export class UpdateTestCaseForm extends Base {
@@ -20,11 +21,11 @@ export class UpdateTestCaseForm extends Base {
         super(page, 'div.updateForm', 'Update Test Case Form');
     }
 
-
+    @boxStep
     public async fillNewTCName(name: string): Promise<void> {
         await this.testNameInput.fill(name)
     }
-
+    @boxStep
     public async getDescription(): Promise<string> {
         return await this.descriptionInput.getInputValue()
     }

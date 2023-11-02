@@ -3,6 +3,7 @@ import {BasePage} from "@base/BasePage";
 import {Input} from "@components/Input";
 import {Button} from "@components/Button";
 import {Link} from "@components/Link";
+import {boxStep} from "../utils/decorators";
 
 
 export class LoginPage extends BasePage {
@@ -16,19 +17,19 @@ export class LoginPage extends BasePage {
         super(page, 'http://127.0.0.1:8000/login/?next=/');
     }
 
-
+    @boxStep
     public fillUserName(username: string): Promise<void> {
         return this.userNameInput.fill(username)
     }
-
+    @boxStep
     public fillPassword(password: string): Promise<void> {
         return this.passwordInput.fill(password)
     }
-
+    @boxStep
     public clickDontHaveAccount(): Promise<void> {
         return this.dontHaveAccountLink.click()
     }
-
+    @boxStep
     public clickLoginButton(): Promise<void> {
         return this.loginButton.click()
     }

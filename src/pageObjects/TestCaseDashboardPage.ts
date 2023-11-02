@@ -1,8 +1,9 @@
-import {BasePage} from "../base/BasePage";
+import {BasePage} from "@base/BasePage";
 import {Page} from "@playwright/test";
 import {TestCase} from "@fragments/TestCase";
 import {test} from "@fixture";
 import {Button} from "@components/Button";
+import {boxStep} from 'src/utils/decorators'
 
 
 export class TestCaseDashboardPage extends BasePage {
@@ -18,12 +19,14 @@ export class TestCaseDashboardPage extends BasePage {
         super(page, 'http://127.0.0.1:8000/tests/');
     }
 
+    @boxStep
     public async getTestCaseById(id: number): Promise<TestCase> {
         return await test.step(`Get test case with id ${id}`, () => {
             return new TestCase(this.page, id)
         })
     }
 
+    @boxStep
     public async getTestCaseBySummary(summary: string) {
         return await test.step(`Get test case by summary: ${summary}`, async () => {
             const summaryLocator = await this.getByText(summary, {exact: true})
@@ -34,13 +37,13 @@ export class TestCaseDashboardPage extends BasePage {
             return new TestCase(this.page, testCaseId)
         },{box: true})
     }
-
+    @boxStep
     public async getTestCasesCount() {
         return await test.step('Get count of test cases in the table', async () => {
             return this.testCaseTable.locator('').count()
         })
     }
-
+    @boxStep
     public async getAllIds() {
         return await test.step('Get all ids from the table', async () => {
             const ids: number[] = []
