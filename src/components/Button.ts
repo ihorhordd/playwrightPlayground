@@ -1,7 +1,7 @@
 import {BaseComponent} from "./BaseComponent";
 import {test} from "@fixture";
 import {Page} from "@playwright/test";
-import {Selector} from "@ourTypes/components";
+import {Selector} from "@types"
 
 
 export class Button extends BaseComponent {

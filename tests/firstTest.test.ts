@@ -7,7 +7,6 @@ test.beforeEach(async ({loginPage}) => {
         const userName = 'alice'
         const password = 'Qamania123'
         await test.step('Login', async () => {
-            await new Promise(resolve => setTimeout(resolve, 1000))
             await loginPage.fillUserName(userName)
             await loginPage.userNameInput.shouldHaveValue(userName)
             await loginPage.passwordInput.shouldBeVisible()
@@ -24,10 +23,8 @@ test.beforeEach(async ({loginPage}) => {
 test('CheckDashBoard', async ({dashboardPage}) => {
     await dashboardPage.goto()
     const generalInfo = await dashboardPage.getAllTestCaseStats()
-    expect(generalInfo).toStrictEqual({noRun: 4, passed: 5  , failed: 2, total: 11})
-    await dashboardPage.dashboardBox.click()
+    expect(generalInfo).toStrictEqual({noRun: 4, passed: 5, failed: 2, total: 11})
     await dashboardPage.refreshTestCasesDashboard()
-    await dashboardPage.refreshStatsButton.click()
 })
 
 test('TestCase Page', async ({testCaseDashboardPage}) => {
@@ -42,3 +39,10 @@ test('TestCase Page', async ({testCaseDashboardPage}) => {
 
 })
 
+test('Update test case', async ({testCaseDashboardPage}) => {
+    await testCaseDashboardPage.goto()
+    const myTestCase = await testCaseDashboardPage.getTestCaseById(1)
+    const bob = await myTestCase.openUpdateTestCasePage()
+    await bob.isOnPage('http://127.0.0.1:8000/tests/1')
+    const sas = await bob.testCaseUpdate.getDescription()
+})

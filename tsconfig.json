@@ -8,13 +8,13 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "@helpers": ["src/utils/index.ts"],
+      "@base/*": ["src/base/*"],
       "@fixture": ["src/utils/fixture.ts"],
-      "@pages/*": ["src/pageObjects/*"],
-      "@fragments/*": ["src/fragments/*"],
-      "@components/*": ["src/components/*"],
-      "@ourTypes/*": ["./types/*"],
-      "@fragmentTypes": ["types/fragments"],
-      "componentTypes": ["types/components"]
+      "@pages": ["src/pageObjects/index.ts"],
+      "@fragments": ["src/fragments/index.ts"],
+      "@components": ["src/components/index.ts"],
+      "@types": ["./types/index.ts"],
     }
   },
   "exclude": ["node_modules"]
