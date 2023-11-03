@@ -1,7 +1,5 @@
 import {test as base, expect as baseExpect} from '@playwright/test'
-import {LoginPage} from "@pages/LoginPage";
-import {DashboardPage} from "@pages/DashboardPage";
-import {TestCaseDashboardPage} from "@pages/TestCaseDashboardPage";
+import {LoginPage, DashboardPage, TestCaseDashboardPage} from "@pages";
 
 
 type fixtureType = {
@@ -16,7 +14,7 @@ export const test = base.extend<fixtureType>({
     },
     dashboardPage: async ({page}, use) => {
         const dashboardPage = new DashboardPage(page)
-       await use(dashboardPage)
+        await use(dashboardPage)
     },
     testCaseDashboardPage: async ({page}, use) => {
         const testCasePage = new TestCaseDashboardPage(page)

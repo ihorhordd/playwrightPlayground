@@ -1,9 +1,9 @@
 import {BasePage} from "@base/BasePage";
 import {Page} from "@playwright/test";
-import {TestCase} from "@fragments/TestCase";
+import {TestCase} from "@fragments";
 import {test} from "@fixture";
-import {Button} from "@components/Button";
-import {boxStep} from 'src/utils/decorators'
+import {Button} from "@components";
+import {boxStep} from '@helpers'
 
 
 export class TestCaseDashboardPage extends BasePage {

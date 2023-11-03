@@ -1,12 +1,10 @@
-import {Button} from "@components/Button";
 import {test} from "@fixture";
 import {Page} from "@playwright/test";
 import {Base} from "@base/Base";
-import {TestCaseStatus} from "@ourTypes/Enum";
-import {ITestCase} from "@fragmentTypes";
-import {TextElement} from "@components/TextElement";
-import {UpdateTestCasePage} from "@pages/UpdateTestCasePage";
-import {boxStep} from "../utils/decorators";
+import {TestCaseStatus, ITestCase} from "@types";
+import {TextElement, Button} from "@components";
+import {UpdateTestCasePage} from "@pages";
+import {boxStep} from "@helpers";
 
 export class TestCase extends Base {
 

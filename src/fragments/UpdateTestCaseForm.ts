@@ -1,9 +1,7 @@
 import {Base} from "@base/Base";
 import {Page} from "@playwright/test";
-import {TextElement} from "@components/TextElement";
-import {Input} from "@components/Input";
-import {test} from "@fixture";
-import {boxStep} from "../utils/decorators";
+import {TextElement, Input} from "@components";
+import {boxStep} from "@helpers";
 
 
 export class UpdateTestCaseForm extends Base {

@@ -1,7 +1,7 @@
 import {BaseComponent} from "./BaseComponent";
 import {expect, test} from "@fixture";
 import {Page} from "@playwright/test";
-import {Selector} from "componentTypes";
+import {Selector} from "types";
 
 
 export class Input extends BaseComponent {

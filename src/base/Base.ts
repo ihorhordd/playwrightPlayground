@@ -1,6 +1,7 @@
 import {expect, test} from "@fixture";
 import {Locator, Page} from "@playwright/test"
-import {Selector} from "@ourTypes/components";
+import {Selector} from "@types";
+import {boxStep} from "@helpers";
 
 export class Base {
 
@@ -39,30 +40,30 @@ export class Base {
         })
 
     }
-
+    @boxStep
     protected async getByText(text: string, options?: { exact: boolean }): Promise<Awaited<Locator>> {
         return await test.step(`Get element with text: "${text}"`, async () => {
             return this.page.getByText(text, options)
         })
     }
-
+    @boxStep
     protected async getAttribute(attributeName: string, target = this.root) {
         return await test.step(`Get attribute of "${this.name}" with ${this.root}`, async () => {
             return target.getAttribute(attributeName)
         })
     }
-
+    @boxStep
     async shouldBeVisible(target = this.root): Promise<void> {
         await test.step(`Check if "${this.name}" with ${target} is visible`, async () => {
             await expect(target, {message: `${this.errorMessage(target, 'is not visible')}`}
             ).toBeVisible()
         })
     }
-
+    @boxStep
     protected async getParentElement(target: Selector) {
             return this.locator(target).locator('..')
     }
-
+    @boxStep
     public async shouldNotBeVisible(target = this.root): Promise<void> {
         await test.step(`Check if "${this.name}" with ${target} is not visible`, async () => {
             await expect(target, `${this.errorMessage(target, 'is present on the page')}`
@@ -70,13 +71,12 @@ export class Base {
         })
     }
 
-
+    @boxStep
     public async shouldHaveAttr(attr: string, value: any, target = this.root) {
         await test.step(`Check if "${this.name}" with ${target} has attribute: ${attr} with value: ${value}`, async () => {
             await expect(target).toHaveAttribute(attr, attr)
         })
     }
-
     public getChildElement(path: string[], target = this.root ) {
         let elementToReturn = target
         for (const selector of path) {

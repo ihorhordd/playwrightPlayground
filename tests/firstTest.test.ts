@@ -20,7 +20,7 @@ test.beforeEach(async ({loginPage}) => {
 })
 
 
-test.only   ('CheckDashBoard', async ({dashboardPage}) => {
+test('CheckDashBoard', async ({dashboardPage}) => {
     await dashboardPage.goto()
     const generalInfo = await dashboardPage.getAllTestCaseStats()
     expect(generalInfo).toStrictEqual({noRun: 4, passed: 5, failed: 2, total: 11})

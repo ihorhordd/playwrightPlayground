@@ -1,6 +1,6 @@
 import {BasePage} from "@base/BasePage";
 import {Page} from "@playwright/test";
-import {UpdateTestCaseForm} from "@fragments/UpdateTestCaseForm";
+import {UpdateTestCaseForm} from "@fragments";
 
 
 export class UpdateTestCasePage extends BasePage {

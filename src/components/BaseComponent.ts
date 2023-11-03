@@ -1,5 +1,5 @@
 import {Locator, Page} from "@playwright/test";
-import {Base} from "../base/Base";
+import {Base} from "@base/Base";
 
 export class BaseComponent extends Base {
 
