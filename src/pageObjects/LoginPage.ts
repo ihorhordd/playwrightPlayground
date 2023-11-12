@@ -1,9 +1,7 @@
 import {Page} from "@playwright/test";
 import {BasePage} from "@base/BasePage";
-import {Input} from "@components/Input";
-import {Button} from "@components/Button";
-import {Link} from "@components/Link";
-import {boxStep} from "../utils/decorators";
+import {Input, Button, Link} from "@components";
+import {boxStep} from "@helpers";
 
 
 export class LoginPage extends BasePage {

@@ -13,8 +13,9 @@ export class UpdateTestCaseForm extends Base {
     private readonly testNameInput =
         new Input(this.page, 'TC name input', this.root.locator('p:nth-child(3) input#id_name'))
     // private readonly testNameInput =
-        // new Input(this.page, 'TC name input', this.getChildElement(['p:nth-child(3)', 'input#id_name']))
+    // new Input(this.page, 'TC name input', this.getChildElement(['p:nth-child(3)', 'input#id_name']))
     private readonly descriptionInput = new Input(this.page, 'Description input', this.root.locator('p:nth-child(6) textarea#id_description'))
+
     constructor(page: Page) {
         super(page, 'div.updateForm', 'Update Test Case Form');
     }
@@ -23,9 +24,30 @@ export class UpdateTestCaseForm extends Base {
     public async fillNewTCName(name: string): Promise<void> {
         await this.testNameInput.fill(name)
     }
+
     @boxStep
     public async getDescription(): Promise<string> {
         return await this.descriptionInput.getInputValue()
+    }
+
+    @boxStep
+    public async getTitle(): Promise<string> {
+        return await this.title.getText()
+    }
+
+    @boxStep
+    public async getTestId(): Promise<number> {
+        return parseInt(await this.testIdRow.getText());
+    }
+
+    @boxStep
+    public async fillDescription(text: string): Promise<void>{
+        await this.descriptionInput.fill(text)
+    }
+
+    @boxStep
+    public async clearDescription(){
+        await this.descriptionInput.clearInput()
     }
 
 }

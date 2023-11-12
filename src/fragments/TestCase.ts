@@ -91,7 +91,7 @@ export class TestCase extends Base {
         })
     }
     @boxStep
-    public async openUpdateTestCasePage() {
+    public async getUpdateTestCasePage() {
         return await test.step(`Click "Update test case" btn`, async () => {
             await this.updateTestCaseBtn.click()
             return new UpdateTestCasePage(this.page, this.id)
