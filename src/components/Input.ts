@@ -24,7 +24,7 @@ export class Input extends BaseComponent {
     }
 
     public async fill(text: string, validate?: boolean) {
-        await test.step(`Fill ${this.name} with ${text}`, async () => {
+        await test.step(`Fill ${this.name} with text: "${text}"`, async () => {
             await this.component.fill(text)
         })
         if (validate) {

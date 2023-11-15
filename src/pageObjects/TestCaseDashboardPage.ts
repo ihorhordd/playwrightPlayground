@@ -28,7 +28,7 @@ export class TestCaseDashboardPage extends BasePage {
 
     @boxStep
     public async getTestCaseBySummary(summary: string) {
-        return await test.step(`Get test case by summary: ${summary}`, async () => {
+        return await test.step(`Get test case by summary: "${summary}"`, async () => {
             const summaryLocator = await this.getByText(summary, {exact: true})
             const testCaseRow = await this.getParentElement(summaryLocator)
             const testCaseId = +await this.getInnerText(

@@ -3,16 +3,23 @@ import {Locator, Page} from "@playwright/test"
 import {Selector} from "@types";
 import {boxStep} from "@helpers";
 
-export class Base {
+export abstract class Base {
 
     protected readonly root: Locator
 
-    constructor(
+   protected constructor(
         protected readonly page: Page,
         element?: Selector,
         public name?: string,
     ) {
         this.root = this.locator(element!)
+    }
+
+    private logMessage(action: string, target: Selector){
+        // TODO add this to methods
+        return this.name
+            ? `${action} of ${this.name} with ${target}`
+            : `${action} of ${target}`
     }
 
     protected errorMessage(target: any = this.root, errorText: string): string {
@@ -31,6 +38,7 @@ export class Base {
         })
     }
 
+    @boxStep
     protected async getInnerText(target = this.root) {
         const message = this.name
             ? `Get inner text of ${this.name} with ${target}`
@@ -77,7 +85,7 @@ export class Base {
             await expect(target).toHaveAttribute(attr, attr)
         })
     }
-    public getChildElement(path: string[], target = this.root ) {
+    public getChildElement(path: string[], target = this.root) {
         let elementToReturn = target
         for (const selector of path) {
             elementToReturn = elementToReturn.locator(selector)

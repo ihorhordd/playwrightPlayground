@@ -1,5 +1,5 @@
-import {expect, test} from "@fixture";
-
+import {test} from "@fixture";
+import {expect} from "@playwright/test";
 
 test.beforeEach(async ({loginPage}) => {
     await loginPage.goto()
@@ -36,13 +36,15 @@ test('TestCase Page', async ({testCaseDashboardPage}) => {
         'fail empty form registration check'
     )
     console.log(await testCaseToDelete.getTestCaseInfo())
-
 })
 
 test('Update test case', async ({testCaseDashboardPage}) => {
+    const descriptionText = 'New description 44$$$$$'
     await testCaseDashboardPage.goto()
     const myTestCase = await testCaseDashboardPage.getTestCaseById(1)
-    const bob = await myTestCase.openUpdateTestCasePage()
-    await bob.isOnPage('http://127.0.0.1:8000/tests/1')
-    const sas = await bob.testCaseUpdate.getDescription()
+    const updatePage = await myTestCase.getUpdateTestCasePage()
+    await updatePage.testCaseUpdateForm.clearDescription()
+    await updatePage.testCaseUpdateForm.fillDescription(descriptionText)
+    const updatedDescriptionVal = await updatePage.testCaseUpdateForm.getDescription()
+    expect(updatedDescriptionVal).toBe(descriptionText)
 })

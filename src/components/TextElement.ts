@@ -1,6 +1,6 @@
-import {BaseComponent} from "@components";
 import {Page} from "@playwright/test";
 import {Selector} from "@types";
+import {BaseComponent} from "./BaseComponent";
 
 
 export class TextElement extends BaseComponent {
