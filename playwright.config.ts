@@ -13,7 +13,12 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : undefined,
-    reporter: [['html', {outputFolder: 'test_results'}]],
+    reporter: [
+        ['html', {outputFolder: 'test_results'}],
+        ['monocart-reporter', {
+            name: 'My Test Reporter',
+            outputFile: './test_results/monoreport.html'
+        }]],
     use: {
         baseURL: 'http://127.0.0.1:8000',
         trace: 'on',

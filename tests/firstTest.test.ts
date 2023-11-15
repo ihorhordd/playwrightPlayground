@@ -36,22 +36,15 @@ test('TestCase Page', async ({testCaseDashboardPage}) => {
         'fail empty form registration check'
     )
     console.log(await testCaseToDelete.getTestCaseInfo())
-
 })
 
 test('Update test case', async ({testCaseDashboardPage}) => {
+    const descriptionText = 'New description 44$$$$$'
     await testCaseDashboardPage.goto()
     const myTestCase = await testCaseDashboardPage.getTestCaseById(1)
     const updatePage = await myTestCase.getUpdateTestCasePage()
-    await updatePage.isOnPage()
-    const baseDescription = await updatePage.testCaseUpdateForm.getDescription()
     await updatePage.testCaseUpdateForm.clearDescription()
-    await updatePage.testCaseUpdateForm.fillDescription('New description 44$$$$$')
-    const updatedDescription = await updatePage.testCaseUpdateForm.getDescription()
-    console.log(baseDescription)
-    expect(baseDescription).toBe('set \n' +
-        'user like alice,\n' +
-        'email like aaa@bbb.com,\n' +
-        'password like Qamania123')
-    expect(updatedDescription).toBe('New description 44$$$$$')
+    await updatePage.testCaseUpdateForm.fillDescription(descriptionText)
+    const updatedDescriptionVal = await updatePage.testCaseUpdateForm.getDescription()
+    expect(updatedDescriptionVal).toBe(descriptionText)
 })

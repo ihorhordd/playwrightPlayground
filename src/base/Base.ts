@@ -3,11 +3,11 @@ import {Locator, Page} from "@playwright/test"
 import {Selector} from "@types";
 import {boxStep} from "@helpers";
 
-export class Base {
+export abstract class Base {
 
     protected readonly root: Locator
 
-    constructor(
+   protected constructor(
         protected readonly page: Page,
         element?: Selector,
         public name?: string,
