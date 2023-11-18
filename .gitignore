@@ -1,6 +1,6 @@
 node_modules/
 /test-results/
 /playwright-report/
-test_results/
 reports/
-test_results/
+result/
+html-report/

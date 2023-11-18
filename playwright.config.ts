@@ -11,14 +11,16 @@ export default defineConfig({
     testDir: './tests',
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
+    workers: 1,
     reporter: [
-        ['html', {outputFolder: 'test_results'}],
+        ['list'],
+        ['html', {outputFolder: './html-report', open: 'never'}],
         ['monocart-reporter', {
             name: 'My Test Reporter',
-            outputFile: './test_results/monoreport.html'
-        }]],
+            printSteps: true,
+            outputFile: './test-results/monoreport.html'
+        }],
+    ],
     use: {
         baseURL: 'http://127.0.0.1:8000',
         trace: 'on',
@@ -32,16 +34,6 @@ export default defineConfig({
 
             use: {...devices['Desktop Chrome']},
         },
-        //
-        // {
-        //     name: 'firefox',
-        //     use: {...devices['Desktop Firefox']},
-        // },
-        //
-        // {
-        //     name: 'webkit',
-        //     use: {...devices['Desktop Safari']},
-        // },
     ],
 
 });

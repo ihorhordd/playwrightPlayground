@@ -1,4 +1,4 @@
-import {test} from "@fixture";
+import {expect, test} from "@fixture";
 import {Page} from "@playwright/test";
 import {Base} from "@base/Base";
 import {TestCaseStatus, ITestCase} from "@types";
@@ -7,11 +7,11 @@ import {UpdateTestCasePage} from "@pages";
 import {boxStep} from "@helpers";
 
 export class TestCase extends Base {
-
-    private readonly row = new TextElement(this.page, `test case row ${this.id}`, this.element)
+    // TODO: consider adding getChildElement by default
+    private readonly row = new TextElement(this.page, `test case row ${this.id}`, this.root)
     private readonly rowLocator = this.row.getLocator()
     private readonly idColumn = new TextElement(this.page, 'Id Column', this.rowLocator.locator(`td:nth-child(1)`))
-    private readonly summary = new TextElement(this.page, 'TC Summary', this.rowLocator.locator(`td:nth-child(2)`))
+    public  readonly summary = new TextElement(this.page, 'TC Summary', this.rowLocator.locator(`td:nth-child(2)`))
     private readonly authorColumn = new TextElement(this.page, 'Author column', this.rowLocator.locator('td.ttAuthor'))
     private readonly descriptionColumn = new TextElement(this.page, 'Description Column', this.rowLocator.locator('td.ttDes div'))
     private readonly lastExecutor = new TextElement(this.page, 'Last Executor Cell', this.rowLocator.locator('td.ttLast'))
@@ -22,8 +22,8 @@ export class TestCase extends Base {
     private readonly runStatus = this.rowLocator.locator('td.ttStatus span')
 
 
-    constructor(page: Page, private id: number, private readonly element = `tr.testRow_${id}`) {
-        super(page, element, `Test Case with id ${id}`);
+    constructor(page: Page, private id: number) {
+        super(page, `tr.testRow_${id}`, `Test Case with id ${id}`);
     }
     @boxStep
     public async getSummaryText() {
@@ -32,10 +32,11 @@ export class TestCase extends Base {
             return await this.getInnerText(summaryLocator)
         })
     }
+
     @boxStep
-    public async markTestCase(status: TestCaseStatus.fail | TestCaseStatus.pass) {
+    public async markTestCase(status: TestCaseStatus.Fail | TestCaseStatus.Pass) {
         await test.step(`Mark test case with if ${this.id} as ${status}`, async () => {
-            return status === TestCaseStatus.pass
+            return status === TestCaseStatus.Pass
                 ? this.passBtn.click()
                 : this.failBtn.click()
         })
@@ -97,4 +98,17 @@ export class TestCase extends Base {
             return new UpdateTestCasePage(this.page, this.id)
         })
     }
+
+    @boxStep
+    public async shouldHaveStatus(expectedStatus: TestCaseStatus){
+        const tcStatus = await this.getStatus()
+        expect(tcStatus).toEqual(expectedStatus)
+    }
+
+    @boxStep
+    public async shouldHaveDescription(expectedDescription: string){
+        const tcStatus = await this.getDescription()
+        expect(tcStatus).toEqual(expectedDescription)
+    }
+
 }

@@ -2,6 +2,8 @@ import {Page} from "@playwright/test";
 import {BasePage} from "@base/BasePage";
 import {Input, Button, Link} from "@components";
 import {boxStep} from "@helpers";
+import {test} from "@fixture";
+import {User} from "@types";
 
 
 export class LoginPage extends BasePage {
@@ -19,17 +21,31 @@ export class LoginPage extends BasePage {
     public fillUserName(username: string): Promise<void> {
         return this.userNameInput.fill(username)
     }
+
     @boxStep
     public fillPassword(password: string): Promise<void> {
         return this.passwordInput.fill(password)
     }
+
     @boxStep
     public clickDontHaveAccount(): Promise<void> {
         return this.dontHaveAccountLink.click()
     }
+
     @boxStep
     public clickLoginButton(): Promise<void> {
         return this.loginButton.click()
+    }
+
+    @boxStep
+    public async login(user: User){
+        await test.step(`Login as ${user.username}`, async () => {
+            await this.fillUserName(user.username)
+            await this.userNameInput.shouldHaveValue(user.username)
+            await this.passwordInput.shouldBeVisible()
+            await this.fillPassword(user.password)
+        })
+            await this.clickLoginButton()
     }
 
 }

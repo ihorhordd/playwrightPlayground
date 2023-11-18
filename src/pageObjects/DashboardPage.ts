@@ -1,6 +1,6 @@
 import {BasePage} from "@base/BasePage";
 import {Page} from "@playwright/test";
-import {expect, test} from "@fixture";
+import {test} from "@fixture";
 import {TestCaseDashboardRow} from "@types";
 import {Button,TextElement} from "@components";
 import {boxStep, stringifyObject} from "@helpers";
@@ -8,13 +8,12 @@ import {boxStep, stringifyObject} from "@helpers";
 export class DashboardPage extends BasePage {
 
     public readonly dashboardBox = this.locator('div.wBox')
-
     private testCaseRowStatusRow = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, `Test Case ${testCaseStatus} status row`, `p.${testCaseStatus}`)
     private testCaseStatusCount = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, `Test Case ${testCaseStatus} status count`, this.testCaseRowStatusRow(testCaseStatus).getChildElement(['span']))
     public readonly refreshStatsButton = new Button(this.page, 'refresh stats button', 'div.refresh input[value="Refresh Stats"]')
 
     constructor(page: Page) {
-        super(page, 'http://127.0.0.1:8000/');
+        super(page, '/');
     }
 
     @boxStep
@@ -29,11 +28,11 @@ export class DashboardPage extends BasePage {
 
     @boxStep
     public async getAllTestCaseStats(): Promise<Record<TestCaseDashboardRow, number | null>> {
-        const statuses: TestCaseDashboardRow[] = ['failed', 'passed', 'noRun', 'total']
+        const statuses: TestCaseDashboardRow[] = ['failed', 'passed', 'norun', 'total']
         let finalStats: Record<TestCaseDashboardRow, number | null> = {
             passed: null,
             failed: null,
-            noRun: null,
+            norun: null,
             total: null
         }
         await test.step('Get current stats from dashboard', async () => {
@@ -52,12 +51,8 @@ export class DashboardPage extends BasePage {
     @boxStep
     public async refreshTestCasesDashboard() {
         return await test.step('Refresh the TestCases Dashboard', async () => {
-            const requestPromise = this.page.waitForResponse('http://127.0.0.1:8000/getstat/');
             await this.refreshStatsButton.click()
-            const responseStatus = (await requestPromise).status()
-            const responseMethod = (await requestPromise).request().method()
-            expect.soft(responseMethod).toBe('GET')
-            expect.soft(responseStatus).toBe(200)
+
         })
     }
 

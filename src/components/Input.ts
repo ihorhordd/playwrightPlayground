@@ -1,15 +1,9 @@
 import {BaseComponent} from "./BaseComponent";
 import {expect, test} from "@fixture";
-import {Page} from "@playwright/test";
-import {Selector} from "types";
+
 
 
 export class Input extends BaseComponent {
-
-
-    constructor(page: Page, name: string, selector: Selector) {
-        super(page, name, selector);
-    }
 
     public async getInputValue(): Promise<string> {
         return test.step(`Get text from ${this.component}`, async () => {
