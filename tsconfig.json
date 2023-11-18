@@ -15,6 +15,7 @@
       "@fragments": ["src/fragments/index.ts"],
       "@components": ["src/components/index.ts"],
       "@types": ["./types/index.ts"],
+      "@testData": ["./test_data/index.ts"]
     }
   },
   "exclude": ["node_modules"]
