@@ -27,22 +27,33 @@ export class TestCaseDashboardPage extends BasePage {
     }
 
     @boxStep
+    public async getTestCaseByIndex(tcIndex: number = 0): Promise<TestCase> {
+        const tcIds = await this.getAllIds()
+        const testCaseId = tcIndex >=0 ? tcIds[tcIndex] : tcIds[tcIds.length + tcIndex]
+        return await test.step(`Get first test case with index ${tcIndex} which has id ${testCaseId}`, async () => {
+            return new TestCase(this.page, testCaseId)
+        })
+    }
+
+    @boxStep
     public async getTestCaseBySummary(summary: string) {
         return await test.step(`Get test case by summary: "${summary}"`, async () => {
-            const summaryLocator = await this.getByText(summary, {exact: true})
+            const summaryLocator = await this.getByText(summary)
             const testCaseRow = await this.getParentElement(summaryLocator)
             const testCaseId = +await this.getInnerText(
                 testCaseRow.locator('td').first()
             )
             return new TestCase(this.page, testCaseId)
-        },{box: true})
+        }, {box: true})
     }
+
     @boxStep
     public async getTestCasesCount() {
         return await test.step('Get count of test cases in the table', async () => {
             return this.testCaseTable.locator('').count()
         })
     }
+
     @boxStep
     public async getAllIds() {
         return await test.step('Get all ids from the table', async () => {

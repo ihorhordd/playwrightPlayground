@@ -1,18 +1,19 @@
 import {Locator, Page} from "@playwright/test";
 import {Base} from "@base/Base";
+import {Selector} from "@types";
 
 export class BaseComponent extends Base {
 
     constructor(
         page: Page,
         public name: string,
-        private readonly selector: string | Locator,
+        private readonly selectorForRoot:  Selector,
     ) {
-        super(page, selector)
+        super(page, selectorForRoot)
     }
 
 
-    protected component: Locator = this.locator(this.selector)
+    protected component: Locator = this.locator(this.selectorForRoot)
 
     public getLocator() {
         return this.component

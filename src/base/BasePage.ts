@@ -22,5 +22,8 @@ export class BasePage extends Base {
         })
     }
 
+    public async pause(){
+        await this.page.pause()
+    }
 
 }

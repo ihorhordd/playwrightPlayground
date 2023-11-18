@@ -1,6 +1,5 @@
-import {TestCaseStatus} from "./Enum";
 
-export type TestCaseDashboardRow = 'noRun' | 'passed' | 'failed' | 'total'
+export type TestCaseDashboardRow = 'norun' | 'passed' | 'failed' | 'total'
 
 export interface ITestCase {
     id: number,
@@ -9,5 +8,4 @@ export interface ITestCase {
     author: string,
     status: string,
     lastExecutor: string
-
 }

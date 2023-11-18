@@ -9,10 +9,10 @@ export abstract class Base {
 
    protected constructor(
         protected readonly page: Page,
-        element?: Selector,
+        selectorForRoot?: Selector,
         public name?: string,
     ) {
-        this.root = this.locator(element!)
+        this.root = this.locator(selectorForRoot!)
     }
 
     private logMessage(action: string, target: Selector){
@@ -92,5 +92,6 @@ export abstract class Base {
         }
         return elementToReturn
     }
+
 
 }
