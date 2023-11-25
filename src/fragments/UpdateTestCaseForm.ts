@@ -5,13 +5,14 @@ import {boxStep} from "@helpers";
 
 
 export class UpdateTestCaseForm extends Base {
-    private readonly title = new TextElement(this.page, 'Title', 'h3')
-    private readonly testIdRow = new TextElement(this.page, 'TC id row', this.getChildElement(['p:nth-child(2)']))
-    private readonly testNameInput = new Input(this.page, 'TC name input', this.getChildElement(['p:nth-child(3)', 'input#id_name']))
-    private readonly descriptionInput = new Input(this.page, 'Description input', this.root.locator('p:nth-child(6) textarea#id_description'))
-    private readonly updateButton = new Button(this.page, 'Confirm update button', this.getChildElement(['div.btn input[type="submit"]']) )
+    private readonly title = new TextElement(this.page, 'Title', this.root, 'h3')
+    private readonly testIdRow = new TextElement(this.page, 'TC id row', this.root, 'p:nth-child(2)')
+    private readonly testNameInput = new Input(this.page, 'TC name input', this.root, 'p:nth-child(3) input#id_name')
+    private readonly descriptionInput = new Input(this.page, 'Description input', this.root, 'p:nth-child(6) textarea#id_description')
+    private readonly updateButton = new Button(this.page, 'Confirm update button', this.root, 'div.btn input[type="submit"]')
+
     constructor(page: Page) {
-        super(page, 'div.updateForm', 'Update Test Case Form');
+        super(page, 'Update Test Case Form', 'div.updateForm');
     }
 
     @boxStep
@@ -35,17 +36,17 @@ export class UpdateTestCaseForm extends Base {
     }
 
     @boxStep
-    public async fillDescription(text: string): Promise<void>{
+    public async fillDescription(text: string): Promise<void> {
         await this.descriptionInput.fill(text)
     }
 
     @boxStep
-    public async clearDescription(){
+    public async clearDescription() {
         await this.descriptionInput.clearInput()
     }
 
     @boxStep
-    public async clickUpdateButton(){
+    public async clickUpdateButton() {
         await this.updateButton.click()
     }
 

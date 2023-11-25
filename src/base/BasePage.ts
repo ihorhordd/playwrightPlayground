@@ -1,13 +1,16 @@
 import {expect, test} from "@fixture";
 import {Page} from "@playwright/test";
 import {Base} from "@base/Base";
+import {Selector} from "@types";
 
-export class BasePage extends Base {
+export abstract class BasePage extends Base {
     protected constructor(
         page: Page,
-        private readonly url: string
+        public name: string,
+        private readonly url: string,
+        protected selectorForRoot: Selector
     ) {
-        super(page);
+        super(page, name, selectorForRoot);
     }
 
     public async goto(url = this.url) {
@@ -19,6 +22,12 @@ export class BasePage extends Base {
     public async isOnPage(url: string = this.url) {
         await test.step('Verify current url', async () => {
             await expect(this.page).toHaveURL(url)
+        })
+    }
+
+    public async isDisplayed(){
+        await test.step(`Check if page ${this.name} is displayed`, async () => {
+            await this.shouldBeVisible(this.root)
         })
     }
 

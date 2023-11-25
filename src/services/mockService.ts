@@ -1,6 +1,6 @@
 import {Page} from "@playwright/test";
 import {test} from "@fixture";
-import {stringifyObject} from "./helpers";
+import {stringifyObject} from "@helpers";
 
 export class MockService {
     constructor(public page: Page) {
@@ -18,7 +18,6 @@ export class MockService {
             )
         )
     }
-
 
 
 }
