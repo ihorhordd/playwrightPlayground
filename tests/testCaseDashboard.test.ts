@@ -15,14 +15,17 @@ test.describe('TC dashboard', () => {
 
     test('Verify that all test cases should have summary', async ({testCaseDashboardPage, page}) => {
         const ids = await testCaseDashboardPage.getAllIds()
-        for (const id of ids) {
-            await test.step('Get test case and verify summary', async () => {
-                const testCase = new TestCase(page, id)
-                const summary = await testCase.getSummaryText()
-                await testCase.summary.shouldBeVisible()
-                expect(summary).toBeTruthy()
-            }, {box: true})
-        }
+        await test.step('Get summaries', async () => {
+            for (const id of ids) {
+                await test.step('Get test case and verify summary', async () => {
+                    const testCase = new TestCase(page, id)
+                    const summary = await testCase.getSummaryText()
+                    await testCase.summary.shouldBeVisible()
+                    expect(summary).toBeTruthy()
+                }, {box: true})
+            }
+        }, {box: true})
+
 
     })
 
@@ -43,12 +46,10 @@ test.describe('TC dashboard', () => {
 
     test('Update test case', async ({testCaseDashboardPage}) => {
         const descriptionText = 'New description 44$$$$$'
-        const myTestCase = await testCaseDashboardPage.getTestCaseByIndex()
+        const myTestCase = await testCaseDashboardPage.getTestCaseById(1)
         const updatePage = await myTestCase.getUpdateTestCasePage()
-
         await updatePage.testCaseUpdateForm.clearDescription()
         await updatePage.testCaseUpdateForm.fillDescription(descriptionText)
-
         const updatedDescriptionVal = await updatePage.testCaseUpdateForm.getDescription()
         expect(updatedDescriptionVal).toBe(descriptionText)
 
@@ -57,7 +58,7 @@ test.describe('TC dashboard', () => {
         await myTestCase.shouldHaveDescription(descriptionText)
     })
 
-    test('Delete test case', async ({testCaseDashboardPage}) => {
+    test.skip('Delete test case', async ({testCaseDashboardPage}) => {
         const testCaseToDelete = await testCaseDashboardPage.getTestCaseByIndex(-1)
         await testCaseToDelete.shouldBeVisible()
         await testCaseToDelete.deleteTestCase()

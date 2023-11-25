@@ -1,19 +1,18 @@
 import {expect, test} from "@fixture";
 import {Locator, Page} from "@playwright/test"
 import {Selector} from "@types";
-import {boxStep} from "@helpers";
+import {boxStep, splitCssSelector} from "@helpers";
 
 export abstract class Base {
+    // TODO TBD  if leave boxStep decorator for Base methods
 
-    protected readonly root: Locator
 
    protected constructor(
         protected readonly page: Page,
-        selectorForRoot?: Selector,
         public name?: string,
-    ) {
-        this.root = this.locator(selectorForRoot!)
-    }
+        protected selectorForRoot?: Selector,
+    ) {}
+    protected readonly root: Locator  = this.locator(this.selectorForRoot!)
 
     private logMessage(action: string, target: Selector){
         // TODO add this to methods
@@ -85,9 +84,10 @@ export abstract class Base {
             await expect(target).toHaveAttribute(attr, attr)
         })
     }
-    public getChildElement(path: string[], target = this.root) {
+    public getChildElement(pathToElement: string, target = this.root) {
         let elementToReturn = target
-        for (const selector of path) {
+        const pathArr = splitCssSelector(pathToElement)
+        for (const selector of pathArr) {
             elementToReturn = elementToReturn.locator(selector)
         }
         return elementToReturn

@@ -2,18 +2,18 @@ import {BasePage} from "@base/BasePage";
 import {Page} from "@playwright/test";
 import {test} from "@fixture";
 import {TestCaseDashboardRow} from "@types";
-import {Button,TextElement} from "@components";
+import {Button, TextElement} from "@components";
 import {boxStep, stringifyObject} from "@helpers";
 
 export class DashboardPage extends BasePage {
 
     public readonly dashboardBox = this.locator('div.wBox')
-    private testCaseRowStatusRow = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, `Test Case ${testCaseStatus} status row`, `p.${testCaseStatus}`)
-    private testCaseStatusCount = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, `Test Case ${testCaseStatus} status count`, this.testCaseRowStatusRow(testCaseStatus).getChildElement(['span']))
-    public readonly refreshStatsButton = new Button(this.page, 'refresh stats button', 'div.refresh input[value="Refresh Stats"]')
+    private testCaseRowStatusRow = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, `Test Case ${testCaseStatus} status row`, this.root, `p.${testCaseStatus}`)
+    private testCaseStatusCount = (testCaseStatus: TestCaseDashboardRow) => new TextElement(this.page, `Test Case ${testCaseStatus} status count`, this.testCaseRowStatusRow(testCaseStatus).getLocator(), 'span')
+    public readonly refreshStatsButton = new Button(this.page, 'refresh stats button', this.root, this.locator('div.refresh input[value="Refresh Stats"]'))
 
     constructor(page: Page) {
-        super(page, '/');
+        super(page, 'Dashboard Page', '/', 'div.wrap');
     }
 
     @boxStep
@@ -52,7 +52,6 @@ export class DashboardPage extends BasePage {
     public async refreshTestCasesDashboard() {
         return await test.step('Refresh the TestCases Dashboard', async () => {
             await this.refreshStatsButton.click()
-
         })
     }
 
