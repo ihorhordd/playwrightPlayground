@@ -71,7 +71,7 @@ export abstract class Base {
             return this.locator(target).locator('..')
     }
     @boxStep
-    public async shouldNotBeVisible(target = this.root): Promise<void> {
+    public async shouldNotExist(target = this.root): Promise<void> {
         await test.step(`Check if "${this.name}" with ${target} is not visible`, async () => {
             await expect(target, `${this.errorMessage(target, 'is present on the page')}`
             ).toHaveCount(0)
