@@ -1,20 +1,11 @@
-import {expect, test} from "@fixture";
-import {users} from '@testData'
+import {expect, test, testCaseDashboardTest} from "@fixture";
 import {TestCase} from "@fragments";
 import {TestCaseStatus} from "@types";
 
 test.describe('TC dashboard', () => {
 
-
-    test.beforeEach('Go to the TC dashboard page', async ({loginPage, testCaseDashboardPage}) => {
-        await loginPage.goto()
-        await loginPage.login(users.alice)
-        await testCaseDashboardPage.goto()
-    })
-
-
-    test('Verify that all test cases should have summary', async ({testCaseDashboardPage, page}) => {
-        const ids = await testCaseDashboardPage.getAllIds()
+    testCaseDashboardTest('Verify that all test cases should have summary', async ({app: {tcDashboardPage}, page}) => {
+        const ids = await tcDashboardPage.getAllIds()
         await test.step('Get summaries', async () => {
             for (const id of ids) {
                 await test.step('Get test case and verify summary', async () => {
@@ -29,9 +20,9 @@ test.describe('TC dashboard', () => {
 
     })
 
-    test.skip('Verify that test case could be marked as passed and failed', async ({testCaseDashboardPage}) => {
+    testCaseDashboardTest.skip('Verify that test case could be marked as passed and failed', async ({app: {tcDashboardPage}}) => {
         // TODO Enable test after mocking is added
-        const failedTestCase = await testCaseDashboardPage.getTestCaseBySummary('newTc')
+        const failedTestCase = await tcDashboardPage.getTestCaseBySummary('newTc')
         await failedTestCase.shouldBeVisible()
         await failedTestCase.shouldHaveStatus(TestCaseStatus.NoRun)
 
@@ -44,24 +35,24 @@ test.describe('TC dashboard', () => {
 
     })
 
-    test('Update test case', async ({testCaseDashboardPage}) => {
+    testCaseDashboardTest('Update test case', async ({app: {tcDashboardPage}}) => {
         const descriptionText = 'New description 44$$$$$'
-        const myTestCase = await testCaseDashboardPage.getTestCaseById(1)
+        const myTestCase = await tcDashboardPage.getTestCaseById(1)
         const updatePage = await myTestCase.getUpdateTestCasePage()
         await updatePage.testCaseUpdateForm.clearDescription()
         await updatePage.testCaseUpdateForm.fillDescription(descriptionText)
         const updatedDescriptionVal = await updatePage.testCaseUpdateForm.getDescription()
-        expect(updatedDescriptionVal).toBe(descriptionText)
-
         await updatePage.testCaseUpdateForm.clickUpdateButton()
-        await testCaseDashboardPage.goto()
+
+        await tcDashboardPage.goto()
         await myTestCase.shouldHaveDescription(descriptionText)
+        expect(updatedDescriptionVal).toBe(descriptionText)
     })
 
-    test.skip('Delete test case', async ({testCaseDashboardPage}) => {
-        const testCaseToDelete = await testCaseDashboardPage.getTestCaseByIndex(-1)
+    testCaseDashboardTest.skip('Delete test case', async ({app: {tcDashboardPage}}) => {
+        const testCaseToDelete = await tcDashboardPage.getTestCaseByIndex(-1)
         await testCaseToDelete.shouldBeVisible()
         await testCaseToDelete.deleteTestCase()
-        await testCaseToDelete.shouldNotBeVisible()
+        await testCaseToDelete.shouldNotExist()
     })
 })
